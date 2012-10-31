@@ -36,13 +36,13 @@ public class LibraryImplTest {
     @Test
     public void testGetID() {
         System.out.println("getID");
-        String name = "";
-        LibraryImpl instance = null;
-        int expResult = 0;
-        int result = instance.getID(name);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        int id1 = library.getID("User 1");
+        int id2 = library.getID("User 2");
+        
+        assertEquals(id1, library.getID("User 1"));
+        assertEquals(id2, library.getID("User 2"));
+        assertFalse(id1 == id2);
     }
 
     /**
@@ -52,5 +52,65 @@ public class LibraryImplTest {
     public void testGetMaxBooksPerUser() {
         System.out.println("getMaxBooksPerUser");
         assertTrue(library.getMaxBooksPerUser() >= 0);
+    }
+    
+    /**
+     * Tests addBook and takeBook methods, of class LibraryImpl
+     */
+    @Test
+    public void testAddBook() {
+        library.addBook("Book Title1", "Book Author1");
+        library.addBook("Book Title2", "Book Author2");
+        library.addBook("Book Title3", "Book Author3");
+        Book book = library.takeBook("Book Title2");
+        assertEquals("Book Title2", book.getTitle());
+        assertEquals("Book Author2", book.getAuthor());
+    }
+    
+    /**
+     * Tests taking an unavailable book
+     */
+    @Test
+    public void testTakingUnavailableBook() {
+        library.addBook("Book Title", "Book Author");
+        Book book = library.takeBook("Book Title");
+        assertNull(library.takeBook("Book Title"));
+    }
+    
+    /**
+     * Tests taking a book not in the library
+     */
+    @Test
+    public void testTakingNonexistantBook() {
+        assertNull(library.takeBook("Book Title"));
+    }
+    
+    /**
+     * Tests taking the last of duplicate books
+     */
+    @Test
+    public void testTakingOneOfDuplicateBooks() {
+        for (int i=0; i<3; ++i) {
+            library.addBook("Book Title", "Book Author");
+        }
+        
+        for (int i=0; i<3; ++i) {
+            Book book = library.takeBook("Book Title");
+            assertNotNull(book);
+            assertEquals("Book Title", book.getTitle());
+        }
+        
+        assertNull(library.takeBook("Book Title"));
+    }
+    
+    /**
+     * Tests returning a book
+     */
+    @Test
+    public void testReturnBook() {
+        library.addBook("Book Title", "Book Author");
+        Book book = library.takeBook("Book Title");
+        library.returnBook(book);
+        assertNotNull(library.takeBook("Book Title"));
     }
 }

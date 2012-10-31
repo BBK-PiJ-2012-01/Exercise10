@@ -29,7 +29,7 @@ public class RegisterableUserImplTest {
     public void testGetID() {
         System.out.println("getID");
         user.register(library);
-        assertEquals(user.getID(), library.getID()); 
+        assertEquals(user.getID(), library.getID(user.getName())); 
     }
 
     /**

@@ -6,10 +6,11 @@
 package exercise10;
 
 
-public class BooksImpl implements Books {
+public class BookImpl implements Book {
     private final String author, title;
+    private boolean taken;
     
-    public BooksImpl(String author, String title) {
+    public BookImpl(String title, String author) {
         this.author = author;
         this.title = title;
     }   
@@ -22,6 +23,16 @@ public class BooksImpl implements Books {
     @Override
     public String getTitle() {
         return title;
+    }
+
+    @Override
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
+
+    @Override
+    public boolean isTaken() {
+        return taken;
     }
 
 }

@@ -17,7 +17,7 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     public void register(Library library) {
         this.library = library;
         if (library != null)
-            setID(library.getID());
+            setID(library.getID(getName()));
     }
 
     @Override

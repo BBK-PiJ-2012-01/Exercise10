@@ -12,18 +12,18 @@ import org.junit.Before;
  *
  * @author Sam Wright <swrigh11@dcs.bbk.ac.uk>
  */
-public class BooksImplTest {
-    private BooksImpl instance;
+public class BookImplTest {
+    private BookImpl instance;
     private String expected_author = "Author Test";
     private String expected_title = "Title Test";
     
     @Before
     public void buildUp() {
-        instance = new BooksImpl(expected_author, expected_title);
+        instance = new BookImpl(expected_title, expected_author);
     }
 
     /**
-     * Test of getAuthor method, of class BooksImpl.
+     * Test of getAuthor method, of class BookImpl.
      */
     @Test
     public void testGetAuthor() {
@@ -32,11 +32,30 @@ public class BooksImplTest {
     }
 
     /**
-     * Test of getTitle method, of class BooksImpl.
+     * Test of getTitle method, of class BookImpl.
      */
     @Test
     public void testGetTitle() {
         System.out.println("getTitle");
         assertEquals(expected_title, instance.getTitle());
+    }
+    
+    /**
+     * Tests that the default status of taken is false
+     */
+    @Test
+    public void testDefaultTaken() {
+        assertFalse(instance.isTaken());
+    }
+    
+    /**
+     * Tests setTaken and isTaken
+     */
+    @Test
+    public void testSetTaken() {
+        instance.setTaken(true);
+        assertTrue(instance.isTaken());
+        instance.setTaken(false);
+        assertFalse(instance.isTaken());
     }
 }

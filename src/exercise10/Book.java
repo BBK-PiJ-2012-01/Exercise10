@@ -8,7 +8,7 @@ package exercise10;
  *
  * @author Sam Wright <swrigh11@dcs.bbk.ac.uk>
  */
-public interface Books {
+public interface Book {
     /**
      * @return The book's Author.
      */
@@ -18,4 +18,18 @@ public interface Books {
      * @return The book's title
      */
     String getTitle();
+    
+    /**
+     * Sets whether the book has been taken.
+     * 
+     * @param taken 
+     */
+    void setTaken(boolean taken);
+    
+    /**
+     * Returns whether the book has been takes
+     * 
+     * @return taken status
+     */
+    boolean isTaken();
 }
