@@ -8,7 +8,7 @@ package exercise10;
 
 public class UserImpl implements User {
     private final String name;
-    private int libraryID = -1;
+    private int ID = -1;
     
     public UserImpl(String name) {
         this.name = name;
@@ -17,14 +17,14 @@ public class UserImpl implements User {
     @Override
     public void setID(int ID) {
         if (ID < 0)
-            this.libraryID = -1;
+            this.ID = -1;
         else
-            this.libraryID = ID;
+            this.ID = ID;
     }
 
     @Override
     public int getID() {
-        return libraryID;
+        return ID;
     }
 
     @Override
