@@ -5,6 +5,8 @@
 
 package exercise10;
 
+import java.util.List;
+
 
 public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     private Library library;
@@ -26,6 +28,16 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
             return "";
         else
             return library.getName();
+    }
+
+    @Override
+    public void takeBook(String title) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Book> getTakenBooks() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

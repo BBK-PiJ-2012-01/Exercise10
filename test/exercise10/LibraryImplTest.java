@@ -113,4 +113,50 @@ public class LibraryImplTest {
         library.returnBook(book);
         assertNotNull(library.takeBook("Book Title"));
     }
+    
+    
+    /**
+     * Tests getReaderCount
+     */
+    @Test
+    public void testGetReaderCount() {
+        library.getID("User 1");
+        library.getID("User 1");
+        library.getID("User 2");
+        
+        assertEquals(2, library.getReaderCount());
+    }
+    
+    /**
+     * Tests getBookCountCount
+     */
+    @Test
+    public void testGetBookCount() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        
+        assertEquals(3, library.getBookCount());
+    }
+    
+    /**
+     * Tests getBookBorrowedCount
+     */
+    @Test
+    public void testGetBookBorrowedCount() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        assertEquals(0, library.getBookBorrowedCount());
+        
+        library.takeBook("Title 1");
+        assertEquals(1, library.getBookBorrowedCount());
+        
+        library.takeBook("Title 1");
+        assertEquals(2, library.getBookBorrowedCount());
+        
+        library.takeBook("Title 2");
+        assertEquals(3, library.getBookBorrowedCount());
+    }
+    
 }

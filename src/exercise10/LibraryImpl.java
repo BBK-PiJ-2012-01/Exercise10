@@ -61,11 +61,7 @@ public class LibraryImpl implements Library {
         if (books_with_given_title == null)
             return null;
         
-        ListIterator<Book> itr = books_with_given_title.listIterator();
-        Book test_book;
-        
-        while(itr.hasNext()) {
-            test_book = itr.next();
+        for(Book test_book : books_with_given_title) {
             if (!test_book.isTaken()) {
                 test_book.setTaken(true);
                 return test_book;
@@ -85,11 +81,7 @@ public class LibraryImpl implements Library {
             books_sharing_title.add(book);
             books_names_map.put(book.getTitle(), books_sharing_title);
         } else {
-            ListIterator<Book> itr = books_sharing_title.listIterator();
-            Book test_book;
-
-            while(itr.hasNext()) {
-                test_book = itr.next();
+            for(Book test_book : books_sharing_title) {
                 if (test_book == book) {
                     book.setTaken(false);
                     return;
@@ -102,17 +94,31 @@ public class LibraryImpl implements Library {
 
     @Override
     public int getReaderCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return user_ID_map.size();
     }
 
     @Override
     public int getBookCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int subtotal = 0;
+        
+        for (List<Book> book_lst : books_names_map.values()) {
+            subtotal += book_lst.size();
+        }
+        
+        return subtotal;
     }
 
     @Override
     public int getBookBorrowedCount() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        int subtotal = 0;
+        
+        for (List<Book> book_lst : books_names_map.values()) {
+            for (Book book : book_lst) {
+                if (book.isTaken())
+                    ++subtotal;
+            }
+        }
+        return subtotal;
     }
 
 }

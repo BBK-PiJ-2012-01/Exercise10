@@ -4,6 +4,7 @@
  */
 package exercise10;
 
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -50,5 +51,17 @@ public class RegisterableUserImplTest {
         System.out.println("getLibrary");
         user.register(library);
         assertEquals(user.getLibrary(), library.getName());
+    }
+    
+    @Test
+    public void testTakeBook() {
+        user.register(library);
+        library.addBook("Title1", "Author1");
+        library.addBook("Title2", "Author2");
+        
+        List<Book> books = user.getTakenBooks();
+        
+        assertEquals("Title1", books.get(0).getTitle());
+        assertEquals("Title2", books.get(1).getTitle());
     }
 }
