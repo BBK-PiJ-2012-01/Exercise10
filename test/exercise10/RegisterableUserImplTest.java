@@ -4,7 +4,9 @@
  */
 package exercise10;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -57,13 +59,8 @@ public class RegisterableUserImplTest {
     public void testTakeBook() {
         user.register(library);
         library.addBook("Title1", "Author1");
-        library.addBook("Title2", "Author2");
-        
         user.takeBook("Title1");
-        user.takeBook("Title2");
-        List<Book> books = user.getTakenBooks();
         
-        assertEquals("Title1", books.get(0).getTitle());
-        assertEquals("Title2", books.get(1).getTitle());
+        assertEquals("Title1", user.getTakenBooks().get(0));
     }
 }

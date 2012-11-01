@@ -71,4 +71,9 @@ public class MockLibraryImpl implements Library {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<String> getBooksBorrowedByUser(User user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

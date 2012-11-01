@@ -150,5 +150,22 @@ public class LibraryImpl implements Library {
         return null;
     }
 
+    @Override
+    public List<String> getBooksBorrowedByUser(User user) {
+        List<String> book_names = new ArrayList<String>();
+        
+        for (List<Book> book_lst : books_names_map.values()) {
+            for (Book book : book_lst) {
+                if (book.getTakenBy() == user)
+                    book_names.add(book.getTitle());
+            }
+            
+        }
+        
+        return book_names;
+    }
+    
+    
+
 
 }

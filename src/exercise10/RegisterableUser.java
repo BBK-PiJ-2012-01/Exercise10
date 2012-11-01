@@ -34,5 +34,5 @@ public interface RegisterableUser extends User {
      * 
      * @return list of books borrowed.
      */
-    List<Book> getTakenBooks();
+    List<String> getTakenBooks();
 }

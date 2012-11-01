@@ -101,4 +101,7 @@ public interface Library {
      */
     String getUserNameBorrowingBook(Book book);
     
+    
+    List<String> getBooksBorrowedByUser(User user);
+    
 }

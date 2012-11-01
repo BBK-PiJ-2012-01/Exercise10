@@ -43,8 +43,8 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     }
 
     @Override
-    public List<Book> getTakenBooks() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<String> getTakenBooks() {
+        return library.getBooksBorrowedByUser(this);
     }
 
     

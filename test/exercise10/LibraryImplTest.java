@@ -6,6 +6,7 @@ package exercise10;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
@@ -238,22 +239,44 @@ public class LibraryImplTest {
     
     @Test
     public void getUserNameBorrowingBook() {
-        library.addBook("Title 1", "Author 1");
-        library.addBook("Title 2", "Author 2");
-        library.addBook("Title 3", "Author 3");
-        
-        Set<String> expected_users = new HashSet<String>();
-        Set<String> got_users;
-        
-        RegisterableUser alice = new RegisterableUserImpl("Alice");
-        alice.register(library);
+        Book book = new BookImpl("Title 1", "Author 1");
+        library.returnBook(book);
         
         RegisterableUser bob = new RegisterableUserImpl("Bob");
         bob.register(library);
         
         bob.takeBook("Title 1");
-        Book book = bob.getTakenBooks().get(0);
-        assertEquals(bob, library.getUserNameBorrowingBook(book));
+        assertEquals("Bob", library.getUserNameBorrowingBook(book));
+    }
+    
+    
+    @Test
+    public void testGetBooksBorrowedByUser() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        library.addBook("Title 3", "Author 3");
         
+        Set<String> expected_books = new HashSet<String>();
+        Set<String> got_books;
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_books, got_books);
+        
+        alice.takeBook("Title 1");
+        expected_books.add("Title 1");
+        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_books, got_books);
+        
+        alice.takeBook("Title 2");
+        expected_books.add("Title 2");
+        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_books, got_books);
+        
+        alice.takeBook("Title 3");
+        expected_books.add("Title 3");
+        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_books, got_books);
     }
 }
