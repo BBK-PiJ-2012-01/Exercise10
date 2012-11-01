@@ -76,4 +76,9 @@ public class MockLibraryImpl implements Library {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<String> setMaxBookPolicy(int max_bpu) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

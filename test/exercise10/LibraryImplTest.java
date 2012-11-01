@@ -207,6 +207,9 @@ public class LibraryImplTest {
         assertEquals(expected_users, got_users);
     }
     
+    /**
+     * Tests getAllUserNames
+     */
     @Test
     public void testGetAllUserNames() {
         library.addBook("Title 1", "Author 1");
@@ -237,8 +240,11 @@ public class LibraryImplTest {
         assertEquals(expected_users, got_users);
     }
     
+    /**
+     * Tests getUserNameBorrowingBook
+     */
     @Test
-    public void getUserNameBorrowingBook() {
+    public void testGetUserNameBorrowingBook() {
         Book book = new BookImpl("Title 1", "Author 1");
         library.returnBook(book);
         
@@ -250,6 +256,9 @@ public class LibraryImplTest {
     }
     
     
+    /**
+     * Tests getBooksBorrowedByUser
+     */
     @Test
     public void testGetBooksBorrowedByUser() {
         library.addBook("Title 1", "Author 1");
@@ -279,4 +288,31 @@ public class LibraryImplTest {
         got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
         assertEquals(expected_books, got_books);
     }
+    
+    /**
+     * Tests setMaxBookPolicy
+     */
+    @Test
+    public void testSetMaxBookPolicy() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        
+        Set<String> expected_users = new HashSet<String>();
+        Set<String> got_users;
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        alice.takeBook("Title 1");
+        alice.takeBook("Title 2");
+        got_users = new HashSet<String>(library.setMaxBookPolicy(2));
+        assertEquals(expected_users, got_users);
+        
+        expected_users.add("Alice");
+        got_users = new HashSet<String>(library.setMaxBookPolicy(1));
+        assertEquals(expected_users, got_users);
+        
+        got_users = new HashSet<String>(library.setMaxBookPolicy(0));
+        assertEquals(expected_users, got_users);
+    }
+    
 }

@@ -164,8 +164,37 @@ public class LibraryImpl implements Library {
         
         return book_names;
     }
-    
-    
 
-
+    @Override
+    public List<String> setMaxBookPolicy(int max_bpu) {
+        this.max_bpu = max_bpu;
+        
+        Map<String, Integer> username_books = new HashMap<String, Integer>();
+        String username;
+        
+        for (List<Book> book_lst : books_names_map.values() ) {
+            for (Book book : book_lst) {
+                if (!book.isTaken())
+                    continue;
+                
+                username = book.getTakenBy().getName();
+                if (username_books.containsKey(username)) {
+                    username_books.put(username, username_books.get(username) + 1);
+                } else {
+                    username_books.put(username, 1);
+                }
+            }
+        }
+        
+        List<String> violating_users = new ArrayList<String>();
+        for (Map.Entry<String, Integer> e : username_books.entrySet()) {
+            
+            if (e.getValue() > max_bpu) {
+                violating_users.add(e.getKey());
+            }
+        }
+        
+        return violating_users;
+    }
+    
 }

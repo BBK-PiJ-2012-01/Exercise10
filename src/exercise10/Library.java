@@ -101,7 +101,24 @@ public interface Library {
      */
     String getUserNameBorrowingBook(Book book);
     
-    
+    /**
+     * Gets all the book titles borrowed by a user.
+     * Book titles are strings in a list, so duplicate
+     * titles will show multiple times.
+     * 
+     * @param user The user to inspect
+     * @return The books borrowed by user.
+     */
     List<String> getBooksBorrowedByUser(User user);
+    
+    /**
+     * Sets the maximum number of books any one person
+     * can have at any one time, and returns the names
+     * of the users who now violate this.
+     * 
+     * @param max_bpu Max books per user.
+     * @return List of names of users who violate policy.
+     */
+    List<String> setMaxBookPolicy(int max_bpu);
     
 }
