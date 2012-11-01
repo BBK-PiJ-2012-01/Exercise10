@@ -53,9 +53,11 @@ public class BookImplTest {
      */
     @Test
     public void testSetTaken() {
-        instance.setTaken(true);
-        assertTrue(instance.isTaken());
-        instance.setTaken(false);
+        User user = new UserImpl("Bob");
+        instance.setTakenBy(user);
+        assertEquals(user, instance.getTakenBy());
+        
+        instance.setReturned();
         assertFalse(instance.isTaken());
     }
 }

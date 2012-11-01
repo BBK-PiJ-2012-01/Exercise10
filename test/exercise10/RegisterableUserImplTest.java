@@ -19,7 +19,7 @@ public class RegisterableUserImplTest {
     
     @Before
     public void buildUp() {
-        library = new MockLibraryImpl();
+        library = new LibraryImpl("Library name");
         user = new RegisterableUserImpl("UserName");
     }
 
@@ -59,6 +59,8 @@ public class RegisterableUserImplTest {
         library.addBook("Title1", "Author1");
         library.addBook("Title2", "Author2");
         
+        user.takeBook("Title1");
+        user.takeBook("Title2");
         List<Book> books = user.getTakenBooks();
         
         assertEquals("Title1", books.get(0).getTitle());

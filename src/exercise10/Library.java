@@ -4,6 +4,9 @@
  */
 package exercise10;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  *
  * @author Sam Wright <swrigh11@dcs.bbk.ac.uk>
@@ -76,4 +79,26 @@ public interface Library {
      * @return Number of books borrowed.
      */
     int getBookBorrowedCount();
+    
+    /**
+     * Gets the users who are currently borrowing at least one book.
+     * 
+     * @return list of borrowing users.
+     */
+    Set<String> getBorrowingUserNames();
+    
+    /**
+     * Gets a list of all users registered with the library.
+     * 
+     * @return list of users.
+     */
+    Set<String> getAllUserNames();
+    
+    /**
+     * Gets the user who is borrowing the specified book.
+     * @param book
+     * @return User borrowing the book
+     */
+    String getUserNameBorrowingBook(Book book);
+    
 }

@@ -20,11 +20,23 @@ public interface Book {
     String getTitle();
     
     /**
-     * Sets whether the book has been taken.
+     * Sets who the book is taken by.
      * 
-     * @param taken 
+     * @param user 
      */
-    void setTaken(boolean taken);
+    void setTakenBy(User user);
+    
+    /**
+     * Returns the user who took the book.
+     * 
+     * @return user
+     */
+    User getTakenBy();
+    
+    /**
+     * Sets the book as returned to the library.
+     */
+    void setReturned();
     
     /**
      * Returns whether the book has been takes

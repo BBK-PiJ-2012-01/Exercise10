@@ -4,6 +4,9 @@
  */
 package exercise10;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -73,7 +76,9 @@ public class LibraryImplTest {
     @Test
     public void testTakingUnavailableBook() {
         library.addBook("Book Title", "Book Author");
-        Book book = library.takeBook("Book Title");
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        alice.takeBook("Book Title");
         assertNull(library.takeBook("Book Title"));
     }
     
@@ -94,10 +99,12 @@ public class LibraryImplTest {
             library.addBook("Book Title", "Book Author");
         }
         
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        
         for (int i=0; i<3; ++i) {
-            Book book = library.takeBook("Book Title");
-            assertNotNull(book);
-            assertEquals("Book Title", book.getTitle());
+            assertNotNull(library.takeBook("Book Title"));
+            alice.takeBook("Book Title");
         }
         
         assertNull(library.takeBook("Book Title"));
@@ -149,14 +156,104 @@ public class LibraryImplTest {
         library.addBook("Title 2", "Author 2");
         assertEquals(0, library.getBookBorrowedCount());
         
-        library.takeBook("Title 1");
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        
+        alice.takeBook("Title 1");
         assertEquals(1, library.getBookBorrowedCount());
         
-        library.takeBook("Title 1");
+        alice.takeBook("Title 1");
         assertEquals(2, library.getBookBorrowedCount());
         
-        library.takeBook("Title 2");
+        alice.takeBook("Title 2");
         assertEquals(3, library.getBookBorrowedCount());
     }
     
+    /**
+     * Tests getBorrowingUsers
+     */
+    @Test
+    public void testGetBorrowingUserNames() {
+        library.addBook("Title", "Author");
+        library.addBook("Title", "Author");
+        
+        Set<String> expected_users = new HashSet<String>();
+        Set<String> got_users;
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        
+        RegisterableUser bob = new RegisterableUserImpl("Bob");
+        bob.register(library);
+        
+        RegisterableUser charlie = new RegisterableUserImpl("Charlie");
+        charlie.register(library);
+        
+        assertTrue(library.getBorrowingUserNames().isEmpty());
+        
+        alice.takeBook("Title");
+        expected_users.add("Alice");
+        got_users = new HashSet<String>(library.getBorrowingUserNames());
+        assertEquals(expected_users, got_users);
+        
+        bob.takeBook("Title");
+        expected_users.add("Bob");
+        got_users = new HashSet<String>(library.getBorrowingUserNames());
+        assertEquals(expected_users, got_users);
+        
+        charlie.takeBook("Title");
+        got_users = new HashSet<String>(library.getBorrowingUserNames());
+        assertEquals(expected_users, got_users);
+    }
+    
+    @Test
+    public void testGetAllUserNames() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        library.addBook("Title 3", "Author 3");
+        
+        Set<String> expected_users = new HashSet<String>();
+        Set<String> got_users = new HashSet<String>(library.getAllUserNames());
+        
+        assertEquals(expected_users, got_users);
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        expected_users.add("Alice");
+        got_users = new HashSet<String>(library.getAllUserNames());
+        assertEquals(expected_users, got_users);
+        
+        RegisterableUser bob = new RegisterableUserImpl("Bob");
+        bob.register(library);
+        expected_users.add("Bob");
+        got_users = new HashSet<String>(library.getAllUserNames());
+        assertEquals(expected_users, got_users);
+        
+        RegisterableUser charlie = new RegisterableUserImpl("Charlie");
+        charlie.register(library);
+        expected_users.add("Charlie");
+        got_users = new HashSet<String>(library.getAllUserNames());
+        assertEquals(expected_users, got_users);
+    }
+    
+    @Test
+    public void getUserNameBorrowingBook() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        library.addBook("Title 3", "Author 3");
+        
+        Set<String> expected_users = new HashSet<String>();
+        Set<String> got_users;
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        
+        RegisterableUser bob = new RegisterableUserImpl("Bob");
+        bob.register(library);
+        
+        bob.takeBook("Title 1");
+        Book book = bob.getTakenBooks().get(0);
+        assertEquals(bob, library.getUserNameBorrowingBook(book));
+        
+    }
 }

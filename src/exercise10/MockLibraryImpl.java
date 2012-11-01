@@ -5,6 +5,9 @@
 
 package exercise10;
 
+import java.util.List;
+import java.util.Set;
+
 
 public class MockLibraryImpl implements Library {
 
@@ -50,6 +53,21 @@ public class MockLibraryImpl implements Library {
 
     @Override
     public int getBookBorrowedCount() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Set<String> getBorrowingUserNames() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Set<String> getAllUserNames() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getUserNameBorrowingBook(Book book) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

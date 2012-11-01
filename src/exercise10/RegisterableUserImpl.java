@@ -5,12 +5,15 @@
 
 package exercise10;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     private Library library;
-
+    
     public RegisterableUserImpl(String name) {
         super(name);
     }
@@ -18,8 +21,9 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     @Override
     public void register(Library library) {
         this.library = library;
-        if (library != null)
+        if (library != null) {
             setID(library.getID(getName()));
+        }
     }
 
     @Override
@@ -32,12 +36,17 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
 
     @Override
     public void takeBook(String title) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Book book = library.takeBook(title);
+        if (book != null) {
+            book.setTakenBy(this);
+        }
     }
 
     @Override
     public List<Book> getTakenBooks() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    
 
 }

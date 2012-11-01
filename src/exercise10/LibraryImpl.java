@@ -5,11 +5,13 @@
 
 package exercise10;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 
 public class LibraryImpl implements Library {
@@ -18,7 +20,7 @@ public class LibraryImpl implements Library {
     private Map<String, Integer> user_ID_map = new HashMap<String, Integer>();
     private int next_available_id = 0;
     private Map<String, List<Book>> books_names_map = new HashMap<String, List<Book>>();
-
+    
     public LibraryImpl(String name) {
         this.name = name;
     }
@@ -63,7 +65,6 @@ public class LibraryImpl implements Library {
         
         for(Book test_book : books_with_given_title) {
             if (!test_book.isTaken()) {
-                test_book.setTaken(true);
                 return test_book;
             }
         }
@@ -74,6 +75,7 @@ public class LibraryImpl implements Library {
     @Override
     public void returnBook(Book book) {
         List<Book> books_sharing_title = books_names_map.get(book.getTitle());
+        book.setReturned();
         
         // If library doesn't have the book, it will take it (as a donation)
         if (books_sharing_title == null) {
@@ -83,7 +85,6 @@ public class LibraryImpl implements Library {
         } else {
             for(Book test_book : books_sharing_title) {
                 if (test_book == book) {
-                    book.setTaken(false);
                     return;
                 }
             }
@@ -120,5 +121,34 @@ public class LibraryImpl implements Library {
         }
         return subtotal;
     }
+
+    @Override
+    public Set<String> getBorrowingUserNames() {
+        Set<String> borrowing_users = new HashSet<String>();
+        
+        for (List<Book> book_lst : books_names_map.values()) {
+            for (Book book : book_lst) {
+                if (book.isTaken())
+                    borrowing_users.add(book.getTakenBy().getName());
+            }
+            
+        }
+        
+        return borrowing_users;
+    }
+
+    @Override
+    public Set<String> getAllUserNames() {
+        return user_ID_map.keySet();
+    }
+
+    @Override
+    public String getUserNameBorrowingBook(Book book) {
+        if (book.isTaken())
+            return book.getTakenBy().getName();
+        
+        return null;
+    }
+
 
 }
