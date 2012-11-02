@@ -37,7 +37,7 @@ public class ChangingMaxBookExercise implements Exercise {
         
         user.takeBook("Title1");
         user.takeBook("Title2");
-        System.out.format("User took book: [\'Title1\', \'Title2\']\n\n");
+        System.out.format("Bob took books: [\'Title1\', \'Title2\']\n\n");
         
         System.out.format("Set max books per user as 1.  Now these users are in violation: [");
         for (String violating_user : library.setMaxBookPolicy(1)) {
