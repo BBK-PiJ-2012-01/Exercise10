@@ -72,12 +72,22 @@ public class MockLibraryImpl implements Library {
     }
 
     @Override
-    public List<String> getBooksBorrowedByUser(User user) {
+    public List<String> setMaxBookPolicy(int max_bpu) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> setMaxBookPolicy(int max_bpu) {
+    public List<Book> getBooksBorrowedByUser(User user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean canUserTakeMoreBooks(User user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Set<String> getBorrowersOfTitle(String title) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

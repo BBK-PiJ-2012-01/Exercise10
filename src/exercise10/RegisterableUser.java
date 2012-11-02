@@ -30,9 +30,20 @@ public interface RegisterableUser extends User {
     void takeBook(String title);
     
     /**
+     * Returns the book to the library.
+     * 
+     * Returns one book taken out by this user with the given 
+     * title.
+     * 
+     * @param title The title of the book to return.
+     */
+    void returnBook(String title);
+    
+    /**
      * Returns the list of books the user has taken.
      * 
      * @return list of books borrowed.
      */
-    List<String> getTakenBooks();
+    List<String> getTakenBookTitles();
+    
 }

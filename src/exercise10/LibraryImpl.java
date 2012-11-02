@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class LibraryImpl implements Library {
     private final String name;
-    private int max_bpu;
+    private int max_bpu = -1;
     private Map<String, Integer> user_ID_map = new HashMap<String, Integer>();
     private int next_available_id = 0;
     private Map<String, List<Book>> books_names_map = new HashMap<String, List<Book>>();
@@ -151,13 +151,13 @@ public class LibraryImpl implements Library {
     }
 
     @Override
-    public List<String> getBooksBorrowedByUser(User user) {
-        List<String> book_names = new ArrayList<String>();
+    public List<Book> getBooksBorrowedByUser(User user) {
+        List<Book> book_names = new ArrayList<Book>();
         
         for (List<Book> book_lst : books_names_map.values()) {
             for (Book book : book_lst) {
                 if (book.getTakenBy() == user)
-                    book_names.add(book.getTitle());
+                    book_names.add(book);
             }
             
         }
@@ -167,7 +167,10 @@ public class LibraryImpl implements Library {
 
     @Override
     public List<String> setMaxBookPolicy(int max_bpu) {
-        this.max_bpu = max_bpu;
+        if (max_bpu < 0)
+            this.max_bpu = 0;
+        else
+            this.max_bpu = max_bpu;
         
         Map<String, Integer> username_books = new HashMap<String, Integer>();
         String username;
@@ -195,6 +198,23 @@ public class LibraryImpl implements Library {
         }
         
         return violating_users;
+    }
+
+    @Override
+    public boolean canUserTakeMoreBooks(User user) {
+        return getBooksBorrowedByUser(user).size() < max_bpu || max_bpu < 0;
+    }
+
+    @Override
+    public Set<String> getBorrowersOfTitle(String title) {
+        Set<String> borrower_names = new HashSet<String>();
+        
+        for (Book book : books_names_map.get(title)) {
+            if (book.isTaken())
+                borrower_names.add(book.getTakenBy().getName());
+        }
+        
+        return borrower_names;
     }
     
 }

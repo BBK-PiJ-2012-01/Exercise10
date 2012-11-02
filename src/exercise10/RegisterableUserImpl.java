@@ -37,16 +37,30 @@ public class RegisterableUserImpl extends UserImpl implements RegisterableUser {
     @Override
     public void takeBook(String title) {
         Book book = library.takeBook(title);
-        if (book != null) {
+        if (book != null && library.canUserTakeMoreBooks(this)) {
             book.setTakenBy(this);
         }
     }
 
     @Override
-    public List<String> getTakenBooks() {
-        return library.getBooksBorrowedByUser(this);
+    public List<String> getTakenBookTitles() {
+        List<String> book_titles = new ArrayList<String>();
+        
+        for (Book book : library.getBooksBorrowedByUser(this) ) {
+            book_titles.add(book.getTitle());
+        }
+        return book_titles;
     }
 
-    
+    @Override
+    public void returnBook(String title) {
+        
+        for (Book book : library.getBooksBorrowedByUser(this) ){
+            if (book.getTitle().equals(title)) {
+                book.setReturned();
+                return;
+            }
+        }
+    }
 
 }

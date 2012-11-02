@@ -109,7 +109,7 @@ public interface Library {
      * @param user The user to inspect
      * @return The books borrowed by user.
      */
-    List<String> getBooksBorrowedByUser(User user);
+    List<Book> getBooksBorrowedByUser(User user);
     
     /**
      * Sets the maximum number of books any one person
@@ -120,5 +120,21 @@ public interface Library {
      * @return List of names of users who violate policy.
      */
     List<String> setMaxBookPolicy(int max_bpu);
+    
+    /**
+     * Returns true if the user can take out another book,
+     * false if the user can't.
+     * 
+     * @return If user can take out more books.
+     */
+    boolean canUserTakeMoreBooks(User user);
+    
+    /**
+     * Gets the list of users who are borrowing the given title.
+     * 
+     * @param title The title of the book
+     * @return The usernames of users borrowing this title.
+     */
+    Set<String> getBorrowersOfTitle(String title);
     
 }

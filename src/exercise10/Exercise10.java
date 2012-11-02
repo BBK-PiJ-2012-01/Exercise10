@@ -21,6 +21,10 @@ public class Exercise10 {
     public static void main(String[] args) throws BadInput {
         ArrayList<Exercise> exercises = new ArrayList<Exercise>();
         
+        exercises.add(new BorrowBookExercise());
+        exercises.add(new GreedyUserExercise());
+        exercises.add(new WhoBorrowedExercise());
+        exercises.add(new ChangingMaxBookExercise());
         
         ExerciseChooser ech = new ExerciseChooser(exercises);
         ech.run();

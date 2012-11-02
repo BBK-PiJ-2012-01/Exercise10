@@ -48,15 +48,6 @@ public class LibraryImplTest {
         assertEquals(id2, library.getID("User 2"));
         assertFalse(id1 == id2);
     }
-
-    /**
-     * Test of getMaxBooksPerUser method, of class LibraryImpl.
-     */
-    @Test
-    public void testGetMaxBooksPerUser() {
-        System.out.println("getMaxBooksPerUser");
-        assertTrue(library.getMaxBooksPerUser() >= 0);
-    }
     
     /**
      * Tests addBook and takeBook methods, of class LibraryImpl
@@ -265,28 +256,28 @@ public class LibraryImplTest {
         library.addBook("Title 2", "Author 2");
         library.addBook("Title 3", "Author 3");
         
-        Set<String> expected_books = new HashSet<String>();
-        Set<String> got_books;
+        Set<String> expected_book_titles = new HashSet<String>();
+        Set<String> got_book_titles = new HashSet<String>();
         
         RegisterableUser alice = new RegisterableUserImpl("Alice");
         alice.register(library);
-        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
-        assertEquals(expected_books, got_books);
+        got_book_titles = booksToBookTitles(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_book_titles, got_book_titles);
         
         alice.takeBook("Title 1");
-        expected_books.add("Title 1");
-        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
-        assertEquals(expected_books, got_books);
+        expected_book_titles.add("Title 1");
+        got_book_titles = booksToBookTitles(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_book_titles, got_book_titles);
         
         alice.takeBook("Title 2");
-        expected_books.add("Title 2");
-        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
-        assertEquals(expected_books, got_books);
+        expected_book_titles.add("Title 2");
+        got_book_titles = booksToBookTitles(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_book_titles, got_book_titles);
         
         alice.takeBook("Title 3");
-        expected_books.add("Title 3");
-        got_books = new HashSet<String>(library.getBooksBorrowedByUser(alice));
-        assertEquals(expected_books, got_books);
+        expected_book_titles.add("Title 3");
+        got_book_titles = booksToBookTitles(library.getBooksBorrowedByUser(alice));
+        assertEquals(expected_book_titles, got_book_titles);
     }
     
     /**
@@ -315,4 +306,36 @@ public class LibraryImplTest {
         assertEquals(expected_users, got_users);
     }
     
+    private Set<String> booksToBookTitles(List<Book> book_lst) {
+        Set<String> titles_lst = new HashSet<String>();
+        
+        for (Book book : book_lst) {
+            titles_lst.add(book.getTitle());
+        }
+        
+        return titles_lst;
+    }
+    
+    @Test
+    public void testMaxBookPolicy() {
+        library.addBook("Title 1", "Author 1");
+        library.addBook("Title 2", "Author 2");
+        library.setMaxBookPolicy(1);
+        
+        RegisterableUser alice = new RegisterableUserImpl("Alice");
+        alice.register(library);
+        
+        alice.takeBook("Title 1");
+        assertEquals(1, alice.getTakenBookTitles().size());
+        
+        alice.takeBook("Title 2");
+        assertEquals(1, alice.getTakenBookTitles().size());
+        
+        alice.returnBook("Title 1");
+        assertEquals(0, alice.getTakenBookTitles().size());
+        
+        alice.takeBook("Title 2");
+        assertEquals(1, alice.getTakenBookTitles().size());
+        
+    }
 }

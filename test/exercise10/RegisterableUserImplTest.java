@@ -4,12 +4,9 @@
  */
 package exercise10;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -61,6 +58,18 @@ public class RegisterableUserImplTest {
         library.addBook("Title1", "Author1");
         user.takeBook("Title1");
         
-        assertEquals("Title1", user.getTakenBooks().get(0));
+        assertEquals("Title1", user.getTakenBookTitles().get(0));
+    }
+    
+    @Test
+    public void testReturnBook() {
+        user.register(library);
+        library.addBook("Title1", "Author1");
+        
+        user.takeBook("Title1");
+        assertEquals(1, user.getTakenBookTitles().size());
+        
+        user.returnBook("Title1");
+        assertEquals(0, user.getTakenBookTitles().size());
     }
 }
